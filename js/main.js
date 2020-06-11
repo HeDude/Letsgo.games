@@ -34,8 +34,9 @@ function checkForMatch ()
 function disableCards ()
 {
   firstCard.removeEventListener('click', flipCard);
-  secondCard.removeEventListener('click', flipCard);
-
+  secondCard.removeEventListener( 'click', flipCard );
+  firstCard.style.visibility = "hidden";
+  secondCard.style.visibility = "hidden";
   resetBoard();
 }
 
