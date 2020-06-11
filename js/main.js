@@ -6,12 +6,13 @@ let firstCard, secondCard;
 
 function flipCard ()
 {
-  if (lockBoard) return;
-  if (this === firstCard) return;
+  if ( lockBoard ) return;
+  if ( this === firstCard ) return;
 
   this.classList.add('flip');
 
-  if (!hasFlippedCard) {
+  if ( !hasFlippedCard )
+  {
     // first click
     hasFlippedCard = true;
     firstCard = this;
@@ -33,11 +34,15 @@ function checkForMatch ()
 
 function disableCards ()
 {
+  lockBoard = true;
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener( 'click', flipCard );
-  firstCard.style.visibility = "hidden";
-  secondCard.style.visibility = "hidden";
-  resetBoard();
+  setTimeout( () =>
+  {
+    firstCard.style.visibility = "hidden";
+    secondCard.style.visibility = "hidden";
+    resetBoard();
+  }, 1500 );  
 }
 
 function unflipCards ()
@@ -63,7 +68,7 @@ function resetBoard ()
 {
   cards.forEach( card =>
   {
-    let randomPos = Math.floor(Math.random() * 12);
+    let randomPos = Math.floor(Math.random() * 40 );
     card.style.order = randomPos;
   });
 })();
