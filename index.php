@@ -13,7 +13,14 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-$game_number = intval( $_POST[ "next_game_id" ] );
+if ( array_key_exists( "next_game_id", $_POST ) )
+{
+  $game_number = intval( $_POST[ "next_game_id" ] );
+}
+else
+{
+  $game_number = 0;
+}
 $game_number++;
 $game_locations = array
 (
