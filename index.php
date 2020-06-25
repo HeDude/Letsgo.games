@@ -29,8 +29,8 @@ $game_locations = array
   10 => array( 'path' => 'russian/c/3/', 'type' => 'jpg' ),
   11 => array( 'path' => 'russian/c/4/', 'type' => 'jpg' ),
   12 => array( 'path' => 'russian/c/5/', 'type' => 'jpg' ),
-  13 => array( 'path' => 'russian/c/6/', 'type' => 'jpg' )
-  14 => array( 'path' => 'russian/c/7/'
+  13 => array( 'path' => 'russian/c/6/', 'type' => 'jpg' ),
+  14 => array( 'path' => 'russian/c/7/', 'type' => 'jpg' )
 );
 if ( !array_key_exists( $game_number, $game_locations ) )
 {
