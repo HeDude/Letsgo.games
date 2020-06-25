@@ -10,6 +10,9 @@
 <body>
   <section class="memory-game">
 <?php  
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $game_number = intval( $_POST[ "next_game_id" ] );
 $game_number++;
 $game_locations = array
