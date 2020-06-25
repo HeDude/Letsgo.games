@@ -14,20 +14,20 @@ $game_number = intval( $_POST[ "next_game_id" ] );
 $game_number++;
 $game_locations = array
 (
-   1 => 'russian/a/1/',
-   2 => 'russian/a/2/',
-   3 => 'russian/a/3/',
-   4 => 'russian/a/4/',
-   5 => 'russian/a/5/',
-   6 => 'russian/a/6/',
-   7 => 'russian/a/7/',
-   8 => 'russian/c/1/',
-   9 => 'russian/c/2/',
-  10 => 'russian/c/3/',
-  11 => 'russian/c/4/',
-  12 => 'russian/c/5/',
-  13 => 'russian/c/6/',
-  14 => 'russian/c/7/'
+   1 => array( 'path' => 'russian/a/1/', 'type' => 'jpg' ),
+   2 => array( 'path' => 'russian/a/2/', 'type' => 'jpg' ),
+   3 => array( 'path' => 'russian/a/3/', 'type' => 'jpg' ),
+   4 => array( 'path' => 'russian/a/4/', 'type' => 'jpg' ),
+   5 => array( 'path' => 'russian/a/5/', 'type' => 'jpg' ),
+   6 => array( 'path' => 'russian/a/6/', 'type' => 'jpg' ),
+   7 => array( 'path' => 'russian/a/7/', 'type' => 'jpg' ),
+   8 => array( 'path' => 'russian/c/1/', 'type' => 'jpg' ),
+   9 => array( 'path' => 'russian/c/2/', 'type' => 'jpg' ),
+  10 => array( 'path' => 'russian/c/3/', 'type' => 'jpg' ),
+  11 => array( 'path' => 'russian/c/4/', 'type' => 'jpg' ),
+  12 => array( 'path' => 'russian/c/5/', 'type' => 'jpg' ),
+  13 => array( 'path' => 'russian/c/6/', 'type' => 'jpg' ),
+  14 => array( 'path' => 'russian/c/7/'
 );
 if ( !array_key_exists( $game_number, $game_locations ) )
 {
@@ -36,13 +36,14 @@ if ( !array_key_exists( $game_number, $game_locations ) )
 }
 else
 {
-  $game_location = $game_locations[ $game_number ];
+  $game_location = $game_locations[ $game_number ][ 'path' ];
+  $game_type = $game_locations[ $game_number ][ 'type' ];
   for ( $card_number = 1; $card_number <= 20; $card_number++ ) 
   {
     $message = '    <div class="memory-card" data-framework=data_"' . $card_number. '">' . PHP_EOL;
     $message .= '      <img class="front-face" src="image/' . $game_location;
-    $message .=  sprintf( '%1$02d', $card_number );
-    $message .=  '.jpg" alt="Card number ' . $card_number . ' " />'  . PHP_EOL;
+    $message .=  sprintf( '%1$02d', $card_number ) . '.' . $game_type . '"';
+    $message .=  ' alt="Card number ' . $card_number . ' " />'  . PHP_EOL;
     $message .= '      <img class="back-face" src="image/logo_letsgo.svg" alt="Logo" />';
     $message .= '    </div>';
     echo $message . PHP_EOL . $message;
