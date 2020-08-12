@@ -44,7 +44,8 @@ function disableCards ()
     secondCard.style.visibility = "hidden";
     resetBoard();
   }, 1500 );
-  cardCounter <= 0 ? show_next_game() : false;
+  // cardCounter <= 0 ? show_next_game() : false;
+  cardCounter <= 38 ? show_next_game() : false;
 }
 
 function unflipCards ()

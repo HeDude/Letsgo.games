@@ -12,6 +12,14 @@ body
   background: #03588c;
 }
 
+h1
+{
+  position: absolute;
+  text-align: center;
+  width: 1280px;
+  color: white;
+}
+
 .memory-game
 {
   width: 1280px;

@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-
-  <title>Memory Game</title>
-
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <section class="memory-game">
 <?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -21,38 +10,57 @@ else
 {
   $game_number = 0;
 }
+if ( array_key_exists( "game_id", $_POST ) )
+{
+  $game_id = intval( $_POST[ "game_id" ] );
+}
+else
+{
+  $game_id = "russian";
+}
+if ( array_key_exists( "level_id", $_POST ) )
+{
+  $level_id = intval( $_POST[ "level_id" ] );
+}
+else
+{
+  $level_id = "A";
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <title>Memory Game - <?php echo ucfirst( $game_id ); ?> - level <?php echo ucfirst( $level_id ); ?> - scherm <?php echo $game_number; ?></title>
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h1>Memory Game - <?php echo ucfirst( $game_id ); ?> - level <?php echo ucfirst( $level_id ); ?> - scherm <?php echo $game_number; ?></h1>
+  <section class="memory-game">
+<?php
 $game_number++;
-$game_locations = array
-(
-   1 => array( 'path' => 'russian/a/1/', 'type' => 'png' ),
-   2 => array( 'path' => 'russian/a/2/', 'type' => 'png' ),
-   3 => array( 'path' => 'russian/a/3/', 'type' => 'png' ),
-   4 => array( 'path' => 'russian/a/4/', 'type' => 'png' ),
-   5 => array( 'path' => 'russian/a/5/', 'type' => 'png' ),
-   6 => array( 'path' => 'russian/a/6/', 'type' => 'png' ),
-   7 => array( 'path' => 'russian/a/7/', 'type' => 'png' ),
-   8 => array( 'path' => 'russian/b/1/', 'type' => 'png' ),
-   9 => array( 'path' => 'russian/b/2/', 'type' => 'png' ),
-  10 => array( 'path' => 'russian/b/3/', 'type' => 'png' ),
-  11 => array( 'path' => 'russian/b/4/', 'type' => 'png' ),
-  12 => array( 'path' => 'russian/b/5/', 'type' => 'png' ),
-  13 => array( 'path' => 'russian/b/6/', 'type' => 'png' ),
-  14 => array( 'path' => 'russian/b/7/', 'type' => 'png' ),
-  15 => array( 'path' => 'russian/c/1/', 'type' => 'png' ),
-  16 => array( 'path' => 'russian/c/2/', 'type' => 'png' ),
-  17 => array( 'path' => 'russian/c/3/', 'type' => 'jpg' ),
-  18 => array( 'path' => 'russian/c/4/', 'type' => 'png' ),
-  19 => array( 'path' => 'russian/c/5/', 'type' => 'png' ),
-  20 => array( 'path' => 'russian/c/6/', 'type' => 'png' ),
-  21 => array( 'path' => 'russian/c/7/', 'type' => 'png' ),
-  22 => array( 'path' => 'russian/d/1/', 'type' => 'png' ),
-  23 => array( 'path' => 'russian/d/2/', 'type' => 'png' ),
-  24 => array( 'path' => 'russian/d/3/', 'type' => 'png' ),
-  25 => array( 'path' => 'russian/d/4/', 'type' => 'png' ),
-  26 => array( 'path' => 'russian/d/5/', 'type' => 'png' ),
-  27 => array( 'path' => 'russian/d/6/', 'type' => 'png' ),
-  28 => array( 'path' => 'russian/d/7/', 'type' => 'png' )
-);
+$filename = "config.json";
+if ( is_readable( $filename ) )
+{
+    $config = json_decode
+    (
+        utf8_encode
+        (
+            file_get_contents( $filename )
+        ),
+        JSON_OBJECT_AS_ARRAY
+    );
+}
+else
+{
+    exit;
+}
+// var_dump( $config );
+// exit;
+$game_locations = $config["games"][ $game_id ]["levels"];
+
 if ( !array_key_exists( $game_number, $game_locations ) )
 {
   $game_number = 0;
@@ -68,11 +76,11 @@ else
     $message .= '      <img class="front-face" src="image/' . $game_location;
     $message .= sprintf( '%1$02d', $card_number ) . '.' . $game_type . '"';
     $message .= ' alt="Card number ' . $card_number . ' " />'  . PHP_EOL;
-    $message .= '      <img class="back-face" src="image/logo_letsgo.svg" alt="Logo" />';
+    $message .= '      <img class="back-face" src="' . $config["games"]["russian"]["back-face"] . '" alt="Logo" />';
     $message .= '    </div>';
     echo $message . PHP_EOL . $message;
   }
-  $button_text = "Volgende game";
+  $button_text = "Volgend scherm";
 }
 ?>
   </section>
