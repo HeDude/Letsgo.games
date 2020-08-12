@@ -43,7 +43,8 @@ body
 
 .memory-card.flip
 {
-  transform: rotateY(180deg);
+  z-index: 999;
+  transform: scale(2) rotateY(180deg);
 }
 
 .front-face,

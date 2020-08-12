@@ -9,7 +9,7 @@
 </head>
 <body>
   <section class="memory-game">
-<?php  
+<?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -64,10 +64,10 @@ else
   $game_type = $game_locations[ $game_number ][ 'type' ];
   for ( $card_number = 1; $card_number <= 20; $card_number++ ) 
   {
-    $message = '    <div class="memory-card" data-framework=data_"' . $card_number. '">' . PHP_EOL;
+    $message =  '    <div class="memory-card" data-framework=data_"' . $card_number. '">' . PHP_EOL;
     $message .= '      <img class="front-face" src="image/' . $game_location;
-    $message .=  sprintf( '%1$02d', $card_number ) . '.' . $game_type . '"';
-    $message .=  ' alt="Card number ' . $card_number . ' " />'  . PHP_EOL;
+    $message .= sprintf( '%1$02d', $card_number ) . '.' . $game_type . '"';
+    $message .= ' alt="Card number ' . $card_number . ' " />'  . PHP_EOL;
     $message .= '      <img class="back-face" src="image/logo_letsgo.svg" alt="Logo" />';
     $message .= '    </div>';
     echo $message . PHP_EOL . $message;
