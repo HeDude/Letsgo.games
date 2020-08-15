@@ -1,119 +1,55 @@
 {
-    "games": {
-        "russian" : {
+    "domains": {
+        "russisch" : {
             "back-face" : "image/logo_letsgo.svg",
             "levels": {
-                "1": {
-                    "path": "russian/a/1/",
-                    "type": "png"
+                "a": {
+                    "playgrounds" :
+                    {
+                        "1": { "path": "image/domain/russisch/a/1/", "type": "png" },
+                        "2": { "path": "image/domain/russisch/a/2/", "type": "png" },
+                        "3": { "path": "image/domain/russisch/a/3/", "type": "png" },
+                        "4": { "path": "image/domain/russisch/a/4/", "type": "png" },
+                        "5": { "path": "image/domain/russisch/a/5/", "type": "png" },
+                        "6": { "path": "image/domain/russisch/a/6/", "type": "png" },
+                        "7": { "path": "image/domain/russisch/a/7/", "type": "png" }
+                    }
                 },
-                "2": {
-                    "path": "russian/a/2/",
-                    "type": "png"
+                "b": {
+                    "playgrounds" :
+                    { 
+                        "1": { "path": "image/domain/russisch/b/1/", "type": "png" },
+                        "2": { "path": "image/domain/russisch/b/2/", "type": "png" },
+                        "3": { "path": "image/domain/russisch/b/3/", "type": "png" },
+                        "4": { "path": "image/domain/russisch/b/4/", "type": "png" },
+                        "5": { "path": "image/domain/russisch/b/5/", "type": "png" },
+                        "6": { "path": "image/domain/russisch/b/6/", "type": "png" },
+                        "7": { "path": "image/domain/russisch/b/7/", "type": "png" }
+                    }
                 },
-                "3": {
-                    "path": "russian/a/3/",
-                    "type": "png"
+                "c": {
+                    "playgrounds" :
+                    { 
+                        "1": { "path": "image/domain/russisch/c/1/", "type": "png" },
+                        "2": { "path": "image/domain/russisch/c/2/", "type": "png" },
+                        "3": { "path": "image/domain/russisch/c/3/", "type": "jpg" },
+                        "4": { "path": "image/domain/russisch/c/4/", "type": "png" },
+                        "5": { "path": "image/domain/russisch/c/5/", "type": "png" },
+                        "6": { "path": "image/domain/russisch/c/6/", "type": "png" },
+                        "7": { "path": "image/domain/russisch/c/7/", "type": "png" }
+                    }
                 },
-                "4": {
-                    "path": "russian/a/4/",
-                    "type": "png"
-                },
-                "5": {
-                    "path": "russian/a/5/",
-                    "type": "png"
-                },
-                "6": {
-                    "path": "russian/a/6/",
-                    "type": "png"
-                },
-                "7": {
-                    "path": "russian/a/7/",
-                    "type": "png"
-                },
-                "8": {
-                    "path": "russian/b/1/",
-                    "type": "png"
-                },
-                "9": {
-                    "path": "russian/b/2/",
-                    "type": "png"
-                },
-                "10": {
-                    "path": "russian/b/3/",
-                    "type": "png"
-                },
-                "11": {
-                    "path": "russian/b/4/",
-                    "type": "png"
-                },
-                "12": {
-                    "path": "russian/b/5/",
-                    "type": "png"
-                },
-                "13": {
-                    "path": "russian/b/6/",
-                    "type": "png"
-                },
-                "14": {
-                    "path": "russian/b/7/",
-                    "type": "png"
-                },
-                "15": {
-                    "path": "russian/c/1/",
-                    "type": "png"
-                },
-                "16": {
-                    "path": "russian/c/2/",
-                    "type": "png"
-                },
-                "17": {
-                    "path": "russian/c/3/",
-                    "type": "jpg"
-                },
-                "18": {
-                    "path": "russian/c/4/",
-                    "type": "png"
-                },
-                "19": {
-                    "path": "russian/c/5/",
-                    "type": "png"
-                },
-                "20": {
-                    "path": "russian/c/6/",
-                    "type": "png"
-                },
-                "21": {
-                    "path": "russian/c/7/",
-                    "type": "png"
-                },
-                "22": {
-                    "path": "russian/d/1/",
-                    "type": "png"
-                },
-                "23": {
-                    "path": "russian/d/2/",
-                    "type": "png"
-                },
-                "24": {
-                    "path": "russian/d/3/",
-                    "type": "png"
-                },
-                "25": {
-                    "path": "russian/d/4/",
-                    "type": "png"
-                },
-                "26": {
-                    "path": "russian/d/5/",
-                    "type": "png"
-                },
-                "27": {
-                    "path": "russian/d/6/",
-                    "type": "png"
-                },
-                "28": {
-                    "path": "russian/d/7/",
-                    "type": "png"
+                "d": {
+                    "playgrounds" :
+                    { 
+                        "1": { "path": "image/domain/russisch/d/1/", "type": "png" },
+                        "2": { "path": "image/domain/russisch/d/2/", "type": "png" },
+                        "3": { "path": "image/domain/russisch/d/3/", "type": "png" },
+                        "4": { "path": "image/domain/russisch/d/4/", "type": "png" },
+                        "5": { "path": "image/domain/russisch/d/5/", "type": "png" },
+                        "6": { "path": "image/domain/russisch/d/6/", "type": "png" },
+                        "7": { "path": "image/domain/russisch/d/7/", "type": "png" }
+                    }
                 }
             }
         }

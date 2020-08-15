@@ -81,7 +81,7 @@ h1
   transform: rotateY(180deg);
 }
 
-.next_form
+.next_playground
 {
   position: absolute;
    width: 1280px;
@@ -90,7 +90,7 @@ h1
   /* display: flex; */
   display: none;
 }
-.next_game
+.next_playground_button
 {
   position: relative;
   margin: auto;
@@ -103,7 +103,7 @@ h1
   box-shadow: 0px 4px 0px #8fc74b;
 }
 
-.next_game:active
+.next_playground_button:active
 {
   top: 8px;	
   box-shadow: 0 0 #87a86f; background-color: #8fc74b;

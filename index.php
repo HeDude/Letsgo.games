@@ -2,93 +2,184 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-if ( array_key_exists( "next_game_id", $_POST ) )
+
+//! Checkj if config file exists
+$filename = "config.json";
+if ( !is_readable( $filename ) )
 {
-  $game_number = intval( $_POST[ "next_game_id" ] );
+  echo "ERROR: config file is not readable!";
+  exit;
+}
+
+$config = json_decode
+(
+    utf8_encode
+    (
+        file_get_contents( $filename )
+    ),
+    JSON_OBJECT_AS_ARRAY
+);
+
+//! Check if config files contains valid JSON format
+if ( !$config || !is_array( $config ) )
+{
+  echo "ERROR: config file is not a valid UTF8 JSON file!";
+  exit;
+}
+
+$configuration = $config;
+
+//! The config file should contain the domains and for each domain the levels and for each level the playgrounds
+foreach( array( "domain", "level", "playground" ) as $element )
+{
+    $list_name = $element . "s";
+    if ( !array_key_exists( $list_name, $configuration ) )
+    {
+      echo "ERROR: config file has no " . $list_name . " as a JSON object (at the correct position)!";
+    }
+    $configuration_list = $configuration[ $list_name ];
+
+    if ( array_key_exists( $element, $_POST ) && array_key_exists( $_POST[ $element ], $configuration_list ) )
+    {
+      //! Set a variable with the name of the element and set it to the posted value
+      $$element = $_POST[ $element ];
+    }
+    else
+    {
+        if ( !reset( $configuration_list ) )
+        {
+            echo "ERROR: config file has no " . $list_name . " specified!";
+            exit;
+        }
+        //! Set a variable with the name of the element and set it to the first value
+        $$element = key( $configuration_list );
+
+    }
+
+    //! Determine the next element
+    $next_element_name = "next_" . $element;
+
+    while ( key( $configuration_list ) != $$element && key( $configuration_list ) !== null )
+    {
+        next( $configuration_list );
+    }
+    if ( next( $configuration_list ) )
+    {
+         $$next_element_name = key( $configuration_list );
+    }
+    else
+    {
+        $$next_element_name = false; 
+    }
+    
+    //! Set a variable for the list with all the info (subarray) of that list
+    $$list_name = $configuration[ $list_name ];
+
+    //! Reduce the configuration to the list for the element on a deeper level
+    $configuration = $configuration_list[ $$element ];
+}
+
+//! With the element variables set, we can build up the heading of the document
+$html_heading = '    <h1>Memory Game - <i>domein</i> ' . ucfirst( $domain ) . ' - <i>level</i> ' . ucfirst( $level ) . ' - <i>speelveld</i> ' .  $playground . '</h1>';
+
+//! The memory game section can be loaded woth the element info
+$html_section_memory_game  = '    <section class="memory-game">' . PHP_EOL;
+
+//! The default back face of each card can be overruled per domain
+if ( array_key_exists( "back-face", $config[ "domains" ][ $domain ] ) )
+{
+    $back_face = $domains[ $domain ][ "back-face" ];
 }
 else
 {
-  $game_number = 0;
+    $back_face = "image/logo_letsgo.svg";
 }
-if ( array_key_exists( "game_id", $_POST ) )
+
+//! The default path of the images of the cards can be overruled per playground
+if ( array_key_exists( "path", $playgrounds[ $playground ] ) )
 {
-  $game_id = intval( $_POST[ "game_id" ] );
+    $card_path = $playgrounds[ $playground ][ 'path' ];
 }
 else
 {
-  $game_id = "russian";
+    $card_path = 'image/domain/' . $domain . '/' . $level . '/' . $playground . '/';
 }
-if ( array_key_exists( "level_id", $_POST ) )
+
+//! The default type (file extension) of the image can be overruled per playground 
+if ( array_key_exists( "type", $playgrounds[ $playground ] ) )
 {
-  $level_id = intval( $_POST[ "level_id" ] );
+    $card_image_type = $playgrounds[ $playground ][ 'type' ];
 }
 else
 {
-  $level_id = "A";
+    $card_image_type = "svg";
 }
+
+//! In the current version 20 different cards must be twice displayed on the playground
+for ( $card_number = 1; $card_number <= 20; $card_number++ ) 
+{
+    $message =  '        <div class="memory-card" data-framework=data_' . $card_number . '>' . PHP_EOL;
+    $message .= '            <img class="front-face" src="' . $card_path;
+    $message .= sprintf( '%1$02d', $card_number ) . '.' . $card_image_type . '"';
+    $message .= ' alt="Card number ' . $card_number . ' " />'  . PHP_EOL;
+    $message .= '            <img class="back-face" src="' . $back_face . '" alt="Logo" />'  . PHP_EOL;
+    $message .= '        </div>';
+    $html_section_memory_game .= $message . PHP_EOL . $message . PHP_EOL;
+}
+
+$html_section_memory_game .= '    </section>';
+
+//! Determine next form action
+if ( $next_playground )
+{
+    $button_text = "Speelveld " . ucfirst( $playground ) . " GEHAALD! Naar volgend speelveld " . ucfirst( $next_playground ) . ".";
+    $next_level = $level;
+    $next_domain = $domain;
+}
+elseif( $next_level )
+{
+    $button_text = "Level " . ucfirst( $level ) . " GEHAALD! Naar volgend level " . ucfirst( $next_level ) . ".";
+    $next_playground = false;
+    $next_domain = $domain;
+}
+elseif( $next_domain )
+{
+    $button_text = "Domein " . ucfirst( $domain ) . " GEHAALD! Naar volgend domein " . ucfirst( $next_domain ) . ".";
+    $next_playground = false;
+    $next_level = false;
+}
+
+//! Define the form
+$html_form_next      = '    <form class="next_playground" action="' . $_SERVER['PHP_SELF'] . '" method="POST">' . PHP_EOL;
+if ( $next_level )
+{
+    $html_form_next .= '        <input type="hidden" name="playground" value="' . $next_playground . '">' . PHP_EOL;
+}
+if ( $next_level )
+{
+    $html_form_next .= '        <input type="hidden" name="level" value="' . $next_level . '">' . PHP_EOL;
+}
+if ( $next_level )
+{
+    $html_form_next .= '        <input type="hidden" name="domain" value="' . $next_domain . '">' . PHP_EOL;
+}
+$html_form_next     .= '        <input class="next_playground_button" type = "submit" value="' . $button_text . '">' . PHP_EOL;
+$html_form_next     .= '    </form>' . PHP_EOL;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-
-  <title>Memory Game - <?php echo ucfirst( $game_id ); ?> - level <?php echo ucfirst( $level_id ); ?> - scherm <?php echo $game_number; ?></title>
-
-  <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <title>Memory - <?php echo ucfirst( $domain ); ?></title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <h1>Memory Game - <?php echo ucfirst( $game_id ); ?> - level <?php echo ucfirst( $level_id ); ?> - scherm <?php echo $game_number; ?></h1>
-  <section class="memory-game">
 <?php
-$game_number++;
-$filename = "config.json";
-if ( is_readable( $filename ) )
-{
-    $config = json_decode
-    (
-        utf8_encode
-        (
-            file_get_contents( $filename )
-        ),
-        JSON_OBJECT_AS_ARRAY
-    );
-}
-else
-{
-    exit;
-}
-// var_dump( $config );
-// exit;
-$game_locations = $config["games"][ $game_id ]["levels"];
-
-if ( !array_key_exists( $game_number, $game_locations ) )
-{
-  $game_number = 0;
-  $button_text = "Geslaagd! Opnieuw?";
-}
-else
-{
-  $game_location = $game_locations[ $game_number ][ 'path' ];
-  $game_type = $game_locations[ $game_number ][ 'type' ];
-  for ( $card_number = 1; $card_number <= 20; $card_number++ ) 
-  {
-    $message =  '    <div class="memory-card" data-framework=data_"' . $card_number. '">' . PHP_EOL;
-    $message .= '      <img class="front-face" src="image/' . $game_location;
-    $message .= sprintf( '%1$02d', $card_number ) . '.' . $game_type . '"';
-    $message .= ' alt="Card number ' . $card_number . ' " />'  . PHP_EOL;
-    $message .= '      <img class="back-face" src="' . $config["games"]["russian"]["back-face"] . '" alt="Logo" />';
-    $message .= '    </div>';
-    echo $message . PHP_EOL . $message;
-  }
-  $button_text = "Volgend scherm";
-}
+    echo $html_heading . PHP_EOL;
+    echo $html_section_memory_game . PHP_EOL;
+    echo $html_form_next;
 ?>
-  </section>
-
-  <form class="next_form" action="<?php $_PHP_SELF ?>" method="POST">
-      <input type="hidden" name="next_game_id" value="<?php echo $game_number;?>">
-      <input class="next_game" type = "submit" / value="<?php echo $button_text;?>">
-  </form>
-  <script src="js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

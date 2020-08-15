@@ -1,10 +1,16 @@
 const cards = document.querySelectorAll( '.memory-card' );
-const next_game = document.querySelector( '.next_form' );
+const next_playground = document.querySelector( '.next_playground' );
 
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
 let cardCounter = 0;
+// let showCardDuration = 5000;
+let showCardDuration = 1000;
+let numberofCards = 40;
+// let requiredMatches = 20;
+let requiredMatches = 1;
+let removeMatchesDuration = 1500;
 
 function flipCard ()
 {
@@ -43,9 +49,8 @@ function disableCards ()
     firstCard.style.visibility = "hidden";
     secondCard.style.visibility = "hidden";
     resetBoard();
-  }, 1500 );
-  // cardCounter <= 0 ? show_next_game() : false;
-  cardCounter <= 38 ? show_next_game() : false;
+  }, removeMatchesDuration );
+  cardCounter <= numberofCards - 2 * requiredMatches ? show_next_playground() : false;
 }
 
 function unflipCards ()
@@ -57,7 +62,7 @@ function unflipCards ()
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
     resetBoard();
-  }, 5000);
+  }, showCardDuration );
 }
 
 function resetBoard ()
@@ -66,20 +71,20 @@ function resetBoard ()
   [firstCard, secondCard] = [null, null];
 }
 
-function show_next_game ()
+function show_next_playground ()
 {
   cards.forEach( card =>
   {
     card.style.display = 'none';
   } );
-  next_game.style.display = 'flex';
+  next_playground.style.display = 'flex';
 }
 
 ( function shuffle ()
 {
   cards.forEach( card =>
   {
-    let randomPos = Math.floor(Math.random() * 40 );
+    let randomPos = Math.floor(Math.random() * numberofCards );
     card.style.order = randomPos;
   });
 })();
