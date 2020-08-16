@@ -17,7 +17,50 @@ h1
   position: absolute;
   text-align: center;
   width: 1280px;
+  margin-right: auto;
+  margin-left: auto;
   color: white;
+  font-size: 32px;
+}
+
+.dropbtn {
+  background-color: #abcee3;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 32px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #abcee3;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: #03588c;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #abcee3;}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #03588c;
 }
 
 .memory-game

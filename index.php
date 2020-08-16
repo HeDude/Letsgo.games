@@ -29,8 +29,10 @@ if ( !$config || !is_array( $config ) )
 
 $configuration = $config;
 
+$elements = array( "domain", "level", "playground" );
+
 //! The config file should contain the domains and for each domain the levels and for each level the playgrounds
-foreach( array( "domain", "level", "playground" ) as $element )
+foreach( $elements as $element )
 {
     $list_name = $element . "s";
     if ( !array_key_exists( $list_name, $configuration ) )
@@ -39,10 +41,15 @@ foreach( array( "domain", "level", "playground" ) as $element )
     }
     $configuration_list = $configuration[ $list_name ];
 
-    if ( array_key_exists( $element, $_POST ) && array_key_exists( $_POST[ $element ], $configuration_list ) )
+    if ( array_key_exists( $element, $_GET ) && array_key_exists( $_GET[ $element ], $configuration_list ) )
+    {
+      //! Set a variable with the name of the element and the value passed by the URL
+      $$element = htmlspecialchars( $_GET[ $element ] );
+    }
+    elseif ( array_key_exists( $element, $_POST ) && array_key_exists( $_POST[ $element ], $configuration_list ) )
     {
       //! Set a variable with the name of the element and set it to the posted value
-      $$element = $_POST[ $element ];
+      $$element = htmlspecialchars( $_POST[ $element ] );
     }
     else
     {
@@ -79,8 +86,24 @@ foreach( array( "domain", "level", "playground" ) as $element )
     $configuration = $configuration_list[ $$element ];
 }
 
-//! With the element variables set, we can build up the heading of the document
-$html_heading = '    <h1>Memory Game - <i>domein</i> ' . ucfirst( $domain ) . ' - <i>level</i> ' . ucfirst( $level ) . ' - <i>speelveld</i> ' .  $playground . '</h1>';
+$html_heading  = '    <h1>Memory Game';
+$variables_in_url = "?";
+foreach( $elements as $element )
+{
+      $html_heading .= ' - ';
+      $html_heading .= '<div class="dropdown">';
+      $html_heading .= '    <button class="dropbtn">&nbsp;' . ucfirst( $element ) . ' ' . ucfirst( $$element ) . '&nbsp;</button>';
+      $html_heading .= '    <div class="dropdown-content">';
+      $list_name = $element . "s";
+      foreach ( $$list_name as $list_key => $list_item )
+      {
+        $html_heading .= '        <a href="' . $_SERVER['PHP_SELF'] . $variables_in_url . "&" . $element . '=' . $list_key . '">' . ucfirst( $list_key ) . '</a>';    
+      } 
+      $html_heading .= '    </div>';
+      $html_heading .= '</div>';
+      $variables_in_url .= "&" . $element . "=" . $$element; 
+}
+$html_heading .= '    </h1>';
 
 //! The memory game section can be loaded woth the element info
 $html_section_memory_game  = '    <section class="memory-game">' . PHP_EOL;
@@ -175,6 +198,7 @@ $html_form_next     .= '    </form>' . PHP_EOL;
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
 <?php
     echo $html_heading . PHP_EOL;
     echo $html_section_memory_game . PHP_EOL;
