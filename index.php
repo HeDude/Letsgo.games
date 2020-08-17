@@ -118,6 +118,16 @@ else
     $back_face = "image/logo_letsgo.svg";
 }
 
+//! The default filename syntax of the images of the cards can be overruled per playground
+if ( array_key_exists( "syntax", $playgrounds[ $playground ] ) && is_array( $playgrounds[ $playground ][ 'syntax' ] ) )
+{
+    $card_syntax = $playgrounds[ $playground ][ 'syntax' ];
+}
+else
+{
+    $card_syntax = false;
+}
+
 //! The default path of the images of the cards can be overruled per playground
 if ( array_key_exists( "path", $playgrounds[ $playground ] ) )
 {
@@ -138,18 +148,27 @@ else
     $card_image_type = "svg";
 }
 
-//! In the current version 20 different cards must be twice displayed on the playground
-for ( $card_number = 1; $card_number <= 20; $card_number++ ) 
+//! 20 matching cards sets must be displayed on the playground. They maybe exact copies or matching copies (key "match" in syntax is defined)
+for ( $card_set_number = 1; $card_set_number <= 20; $card_set_number++ ) 
 {
-    $message =  '        <div class="memory-card" data-framework=data_' . $card_number . '>' . PHP_EOL;
-    $message .= '            <img class="front-face" src="' . $card_path;
-    $message .= sprintf( '%1$02d', $card_number ) . '.' . $card_image_type . '"';
-    $message .= ' alt="Card number ' . $card_number . ' " />'  . PHP_EOL;
-    $message .= '            <img class="back-face" src="' . $back_face . '" alt="Logo" />'  . PHP_EOL;
-    $message .= '        </div>';
-    $html_section_memory_game .= $message . PHP_EOL . $message . PHP_EOL;
+    $prefix = "";
+    foreach ( array( "original", "match") as $memory_card )
+    {
+        if ( $card_syntax )
+        {
+            if ( array_key_exists( $memory_card, $card_syntax )  )
+            {
+                $prefix = $card_syntax[ $memory_card ];
+            }
+        }
+        $card_filename = $prefix . sprintf( '%1$02d', $card_set_number ) . '.' . $card_image_type;
+        $card_file_location = $card_path . $card_filename;      
+        $html_section_memory_game .=  '        <div class="memory-card" data-framework=data_' . $card_set_number . '>' . PHP_EOL;
+        $html_section_memory_game .= '            <img class="front-face" src="' . $card_file_location . '" alt="Card ' . $card_filename . ' " />'  . PHP_EOL;
+        $html_section_memory_game .= '            <img class="back-face" src="' . $back_face . '" alt="Logo" />'  . PHP_EOL;
+        $html_section_memory_game .= '        </div>';
+    }
 }
-
 $html_section_memory_game .= '    </section>';
 
 //! Determine next form action

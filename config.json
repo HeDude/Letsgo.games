@@ -6,7 +6,7 @@
                 "a": {
                     "playgrounds" :
                     {
-                        "1": { "type": "png" },
+                        "1": { "syntax": { "original": "original", "match": "match" }, "type": "png" },
                         "2": { "path": "image/domain/russisch/a/2/", "type": "png" },
                         "3": { "path": "image/domain/russisch/a/3/", "type": "png" },
                         "4": { "path": "image/domain/russisch/a/4/", "type": "png" },
