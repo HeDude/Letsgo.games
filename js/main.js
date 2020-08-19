@@ -1,11 +1,11 @@
 const width  = window.innerWidth  || document.documentElement.clientWidth  || document.body.clientWidth;
 const height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-const optimal_width = 1920;
-const optimal_height = 640;
+const optimal_width = 1400;
+const optimal_height = 750;
 
 if ( width < optimal_width || height < optimal_height )
 {
-  alert( "You're window is " + width + " x " + height + ". Please adjust the screen to " + optimal_width + " x " + optimal_height + " resolution for optimal display!" );
+  alert( "You're window is " + width + " x " + height + ". Please adjust the screen to at least " + optimal_width + " x " + optimal_height + " resolution for optimal display!" );
 }
 
 const cards = document.querySelectorAll( '.memory-card' );
